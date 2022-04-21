@@ -6,12 +6,20 @@ import event_pb2_grpc
 import sys
 from pprint import pprint
 
+# add more events like so:
+#  armadactl submit ./docs/quickstart/job-queue-a.yaml
+
+# Output looks like this:
+# python3 gbj.py
+# Checking queue-a , job-set-1
+# client received: 1650512819482-0 leased
+# client received: 1650512819496-0 pending
+# client received: 1650512821906-0 running
+# client received: 1650513407179-0 submitted
+
 startMessage = "0"
 queueParameter="queue-a"
 idParameter ="job-set-1"
-
-# add more events like so:
-#  armadactl submit ./docs/quickstart/job-queue-a.yaml
 
 if len(sys.argv) > 1:
     startMessage = sys.argv[1]
