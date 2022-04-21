@@ -16,18 +16,21 @@ idParameter ="job-set-1"
 if len(sys.argv) > 1:
     startMessage = sys.argv[1]
     
-def run():
-    print("Now checking " + queueParameter + " , " + idParameter)
-    with grpc.insecure_channel('localhost:50051') as channel:
-        stub = event_pb2_grpc.EventStub(channel)
-        response = stub.GetJobSetEvents(
-            event_pb2.JobSetRequest(
-                queue=queueParameter,
-                from_message_id = startMessage,
-                watch=True,
-                id=idParameter,
-                errorIfMissing=True))
-        for resp in response:
-           print("client received: " + resp.id + " " + resp.message.WhichOneof("events"))
+print("Checking " + queueParameter + " , " + idParameter)
 
-run()
+channel = grpc.insecure_channel('localhost:50051')
+
+stub = event_pb2_grpc.EventStub(channel)
+
+req = event_pb2.JobSetRequest(
+    queue = queueParameter,
+    from_message_id = startMessage,
+    watch = True,
+    id = idParameter,
+    errorIfMissing = True)
+
+response = stub.GetJobSetEvents(req)
+
+for resp in response:
+   print("client received: " + resp.id + " " + resp.message.WhichOneof("events"))
+
