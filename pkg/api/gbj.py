@@ -14,7 +14,9 @@ def run():
     with grpc.insecure_channel('localhost:50051') as channel:
         stub = submit_pb2_grpc.SubmitStub(channel)
         response = stub.CreateQueue(submit_pb2.Queue(name='gbj13', priority_factor=2))
-    print("gbj client received: " + str(response))
+#        response2 = stub.CancelJobs(submit_pb2.JobCancelRequest(queue="queue-a", job_set_id ="job-set-1", job_id = "jj"))
+        response2 = stub.CancelJobs(submit_pb2.JobCancelRequest(queue="queue-a", job_set_id ="job-set-1"))
+    print("gbj client received: " + str(len(response2.cancelled_ids)))
 
 
 if __name__ == '__main__':
