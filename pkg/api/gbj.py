@@ -10,6 +10,9 @@ startMessage = "0"
 queueParameter="queue-a"
 idParameter ="job-set-1"
 
+# add more events like so:
+#  armadactl submit ./docs/quickstart/job-queue-a.yaml
+
 if len(sys.argv) > 1:
     startMessage = sys.argv[1]
     
