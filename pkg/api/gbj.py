@@ -7,19 +7,22 @@ import sys
 from pprint import pprint
 
 startMessage = "0"
+queueParameter="queue-a"
+idParameter ="job-set-1"
+
 if len(sys.argv) > 1:
     startMessage = sys.argv[1]
     
 def run():
-    print("Now checking queue-a, job-set-1")
+    print("Now checking " + queueParameter + " , " + idParameter)
     with grpc.insecure_channel('localhost:50051') as channel:
         stub = event_pb2_grpc.EventStub(channel)
         response = stub.GetJobSetEvents(
             event_pb2.JobSetRequest(
-                queue="queue-a",
+                queue=queueParameter,
                 from_message_id = startMessage,
                 watch=True,
-                id ="job-set-1",
+                id=idParameter,
                 errorIfMissing=True))
         for resp in response:
            print("client received: " + resp.id + " " + resp.message.WhichOneof("events"))
